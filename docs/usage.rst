@@ -1,4 +1,3 @@
-
 ======
 Example
 ======
@@ -7,67 +6,85 @@ Example
 
     from gpx_converter import Converter
 
-**Just read the gpx to dictionary**
+**Just read the GPX to dictionary**
 
 .. code-block:: python
 
     dic = Converter(input_file='your_input.gpx').gpx_to_dictionary(latitude_key='latitude', longitude_key='longitude')
-    # now you have a dictionary and can access the longitudes and latitudes values from the keys
+    # Now you have a dictionary and can access the longitude and latitude values using the keys
     latitudes = dic['latitude']
     longitudes = dic['longitude']
 
+    # Example output:
+    # {
+    #     "latitude": [12.34, 12.35, ...],
+    #     "longitude": [45.67, 45.68, ...]
+    # }
+
 **Convert GPX to other formats**
 
-- Convert from gpx to csv:
+- Convert from GPX to CSV:
 
 .. code-block:: python
 
     Converter(input_file='your_input.gpx').gpx_to_csv(output_file='your_output.csv')
 
-- Convert from gpx to excel sheets:
+- Convert from GPX to Excel:
 
 .. code-block:: python
 
     Converter(input_file='your_input.gpx').gpx_to_excel(output_file='your_output.xlsx')
 
-- Convert from gpx to json:
+- Convert from GPX to JSON:
 
 .. code-block:: python
 
-    Converter(input_file='your_input.gpx').gpx_to_json(output_file='your_output.json)
+    Converter(input_file='your_input.gpx').gpx_to_json(output_file='your_output.json')
 
-- Convert gpx file to dataframe:
+- Convert GPX file to DataFrame:
 
 .. code-block:: python
 
     df = Converter(input_file='your_input.gpx').gpx_to_dataframe()
+    # Example output:
+    #      latitude  longitude
+    # 0     12.34     45.67
+    # 1     12.35     45.68
+    # ...
 
-- Convert gpx file to numpy array:
+- Convert GPX file to numpy array:
 
 .. code-block:: python
 
     np_array = Converter(input_file='your_input.gpx').gpx_to_numpy_array()
+    # Example output:
+    # array([[12.34, 45.67],
+    #        [12.35, 45.68],
+    #        ...])
 
+**Convert other formats to GPX**
 
-**Now convert other formats to GPX**
-
-- csv to gpx
+- CSV to GPX
 
 .. code-block:: python
 
     Converter(input_file='your_input.csv').csv_to_gpx(lats_colname='column_name_of_latitudes',
-                                                     longs_colname='column_name_of_longitudes',
-                                                     output_file='your_output.gpx')
+                                                      longs_colname='column_name_of_longitudes',
+                                                      output_file='your_output.gpx')
 
-- excel to gpx
+    # Parameters:
+    # - lats_colname: Name of the column in the CSV containing latitude values.
+    # - longs_colname: Name of the column in the CSV containing longitude values.
+
+- Excel to GPX
 
 .. code-block:: python
 
     Converter(input_file='your_input.xlsx').excel_to_gpx(lats_colname='column_name_of_latitudes',
-                                                     longs_colname='column_name_of_longitudes',
-                                                     output_file='your_output.gpx')
+                                                         longs_colname='column_name_of_longitudes',
+                                                         output_file='your_output.gpx')
 
-- dataframe to gpx (notice that the method is static)
+- DataFrame to GPX (notice that this method is static)
 
 .. code-block:: python
 
@@ -76,35 +93,38 @@ Example
                                longs_colname='column_name_of_longitudes',
                                output_file='your_output.gpx')
 
-- json to gpx
+- JSON to GPX
 
 .. code-block:: python
 
-    Converter(input_file='your_input.json').json_to_gpx(input_df=your_df,
-                                                       lats_colname='column_name_of_latitudes',
-                                                       longs_colname='column_name_of_longitudes',
-                                                       output_file='your_output.gpx')
+    Converter(input_file='your_input.json').json_to_gpx(lats_colname='column_name_of_latitudes',
+                                                        longs_colname='column_name_of_longitudes',
+                                                        output_file='your_output.gpx')
 
-
-- Automate the conversion of multiple csv file to gpx:
+**Automate the conversion of multiple CSV files to GPX**
 
 .. code-block:: python
 
     Converter.convert_multi_csv_to_gpx(dirpath='your_directory/')
+    
+    # Converts all .csv files in the specified directory to GPX format.
+    # Files are outputted in the same directory.
 
-- Apply spline interpolation on gpx file (you need to install scipy for this to work):
+**Apply spline interpolation on GPX file (requires scipy)**
 
 .. code-block:: python
 
     interpolated_coordinates = Converter.spline_interpolation(cv=your_array_of_control_vertices)
 
+    # Note: You need to have `scipy` installed for this function to work.
+
 Usage from terminal
 --------------------
 
-Alternatively you can use the gpx_converter directly from terminal.
-You just need to pass the function, input file and output file as arguments.
+Alternatively, you can use the `gpx_converter` directly from the terminal.
+You just need to pass the function, input file, and output file as arguments.
 
-- function: the conversion method you want to use. For example "gpx_to_csv"
+- function: the conversion method you want to use (e.g., `gpx_to_csv`, `csv_to_gpx`)
 - input file: path to your input file
 - output file: path to your output file
 
@@ -112,8 +132,18 @@ You just need to pass the function, input file and output file as arguments.
 
     $ gpx_converter --function "gpx_to_csv" --input_file "home/your_input.gpx" --output_file "home/your_output.csv"
 
-or maybe you prefer the short version
+or, you can use the short version:
 
 .. code-block:: console
 
     $ gpx_converter -func "gpx_to_csv" -in "home/your_input.gpx" -out "home/your_output.csv"
+
+Available Functions for Terminal Use
+------------------------------------
+
+- gpx_to_csv
+- gpx_to_excel
+- gpx_to_json
+- csv_to_gpx
+- excel_to_gpx
+- json_to_gpx
